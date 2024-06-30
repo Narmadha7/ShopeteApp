@@ -1,0 +1,9 @@
+2024-06-30 20:17:54,982 :INFO : test_homeDemo :first name is Micky Mak
+2024-06-30 20:18:01,471 :INFO : test_shop :getting all the card titles
+2024-06-30 20:18:01,509 :INFO : test_shop :iphone X
+2024-06-30 20:18:01,524 :INFO : test_shop :Samsung Note 8
+2024-06-30 20:18:01,540 :INFO : test_shop :Nokia Edge
+2024-06-30 20:18:01,553 :INFO : test_shop :Blackberry
+2024-06-30 20:18:01,831 :INFO : test_shop :Entering country name as ind
+2024-06-30 20:18:07,305 :INFO : test_shop :Text received from application is ×
+Success! Thank you! Your order will be delivered in next few weeks :-).
