@@ -1,50 +1,50 @@
+import json
+import os.path
 import time
 
 import pytest
-from selenium import webdriver
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.select import Select
 
+from BasePage.BasePage import BaseTest
 from pageObjects.HomePage import HomePage
-from testData.HomePageData import HomePageData
-from utilities.BaseClass import BaseClass
+
+path = os.path.abspath(os.curdir) + "//testdata//testdata.json"
+with open(path) as f:
+    test_data = json.load(f)
+    data_list = test_data["data"]
 
 
-class TestHome(BaseClass):
-    def test_homeDemo(self, getData):
-        log = self.getLogger()
-        hp = HomePage(self.driver)
-        log.info("first name is " + getData["Name"])
-        hp.setName().send_keys(getData["Name"])
+@pytest.mark.parametrize("data_item", data_list)
+class TestHomePage(BaseTest):
 
-        hp.setEmail().send_keys(getData["Email"])
-        hp.setPassword().send_keys(getData["Password"])
+    def test_homeDemo(self, data_item):
+        self.maximize_windows()
+        home_page = HomePage(self.driver)
+        home_page.setName(data_item["Name"])
 
-        hp.setCheckMe().click()
+        home_page.setEmail(data_item["Email"])
+        home_page.setPassword(data_item["Password"])
+
+        home_page.setCheckMe().click()
 
         # static dropdowns
-        self.selectOptionByText(hp.setGender(), getData["gender"])
+        self.selectOptionByText(home_page.setGender(), data_item["gender"])
 
         # Employment status
-        hp.setStatus().click()
+        home_page.setStatus().click()
 
         # date picker
-        hp.setDob().send_keys(getData["dob"])
+        home_page.setDob().send_keys(data_item["dob"])
 
-        twoway = hp.getTwoway().get_attribute("value")
+        twoway = home_page.getTwoway().get_attribute("value")
         print(twoway)
         assert twoway == "Micky Mak"
 
-        hp.setSubmit().click()
+        home_page.setSubmit().click()
         time.sleep(2)
-        message = hp.getSuccessmsg().text
+        message = home_page.get_success_msg().text
         print(message)
         assert "Success!" in message
 
-        footer_txt = hp.getFootertxt().text
+        footer_txt = home_page.get_footer_txt().text
         print(footer_txt)
         assert "Copyright" in footer_txt
-
-    @pytest.fixture(params= HomePageData.test_HomePage_data)
-    def getData(self, request):
-        return request.param
